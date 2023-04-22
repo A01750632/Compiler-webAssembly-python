@@ -13,7 +13,8 @@ do_while = 'do' block 'while' expression ';'
 while = 'while' expression block
 
 expression_start = expression EOF
-expression = multiplicative (('+' / '-') multiplicative)*
+expression = operators (('<=' / '>=' / '==' / '!=' / '>' / '<') operators)*
+operators = multiplicative (('+' / '-') multiplicative)*
 multiplicative = unary (('*' / '/' / '%') unary)*
 unary = ('+' / '-' / '!')* primary
 primary = decimal / boolean / parenthesis / rhs_variable

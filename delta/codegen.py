@@ -18,8 +18,27 @@ class CodeGenerationVisitor(PTNodeVisitor):
 
     def visit_expression_start(self, node, children):
         return CodeGenerationVisitor.WAT_TEMPLATE.format(children[0])
-
+    
     def visit_expression(self, node, children):
+        result = [children[0]]
+        for i in range(1, len(children), 2):
+            result.append(children[i + 1])
+            match children[i]:
+                case '>=':
+                    result.append('    i32.ge_s\n')
+                case '==':
+                    result.append('    i32.eq\n')
+                case '!=':
+                    result.append('    i32.ne\n')
+                case '>':
+                    result.append('    i32.gt_s\n')
+                case '<':
+                    result.append('    i32.lt_s\n')
+                case '<=':
+                    result.append('    i32.le_s\n')
+        return ''.join(result)
+
+    def visit_operators(self, node, children):
         result = [children[0]]
         for i in range(1, len(children), 2):
             result.append(children[i + 1])
